@@ -14,7 +14,13 @@ const getTimeAngles = (timezone: string) => {
   };
 };
 
-export default function Clock({ timezone, city }: { timezone: string; city: string }) {
+interface ClockProps {
+  timezone: string;
+  city: string;
+  className?: string;
+}
+
+export default function Clock({ timezone, city, className }: ClockProps) {
   const [clock, setClock] = useState(getTimeAngles(timezone));
 
   useEffect(() => {
@@ -25,16 +31,16 @@ export default function Clock({ timezone, city }: { timezone: string; city: stri
   }, [timezone]);
 
   return (
-    <div className="flex flex-col items-center">
-      <div className="relative w-60 h-60 bg-teal-500 rounded-full flex items-center justify-center shadow-lg">
+    <div className={`flex flex-col items-center ${className}`}>
+      <div className="relative w-60 h-60 text-black bg-white rounded-full flex items-center justify-center">
         {/* Clock Numbers */}
         {[...Array(12)].map((_, i) => {
           const angle = (i + 1) * 30;
           return (
             <span
               key={i}
-              className="absolute text-white font-bold"
-              style={{ transform: `rotate(${angle}deg) translateY(-95px) rotate(-${angle}deg)` }}
+              className="absolute text-black font-bold"
+              style={{ transform: `rotate(${angle}deg) translateY(-90px) rotate(-${angle}deg)` }}
             >
               {i + 1}
             </span>
@@ -45,7 +51,7 @@ export default function Clock({ timezone, city }: { timezone: string; city: stri
         <div className="absolute w-[3px] h-24 bg-gray-800 origin-center" style={{ transform: `rotate(${clock.minuteAngle}deg) translateY(-24px)` }}></div>
         <div className="absolute w-[2px] h-28 bg-red-500 origin-center" style={{ transform: `rotate(${clock.secondAngle}deg) translateY(-28px)` }}></div>
       </div>
-      <p className="mt-4 text-lg text-black font-medium">{city}</p>
+      <p className="mt-4 text-lg text-white font-medium">{city}</p>
     </div>
   );
 }
